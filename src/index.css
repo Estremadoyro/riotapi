@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.summonerIcon {
+  
+  height: 10vh;
+  width: 10vh;
+}

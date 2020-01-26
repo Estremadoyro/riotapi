@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Asap:400,600&display=swap');
+
+body { 
+  background-color: #338bd5 !important ;
+  font-family: Asap, sans-serif;
+    
+}
+
+.input_summoner {
+    color: white !important;
+    font-size: 2rem !important;
+    
+}
+
+.result { 
+    color: white !important;
+}
+
+.summonerName { 
+    font-size: 3rem;
+}
+
+.btn {
+    font-weight: bold !important;
+    height: 5rem;
+    font-size: 1.2rem !important;
+}
+
+.title { 
+  font-weight: bold;
+}
+
+.border { 
+  overflow-x: auto;
+  overflow-y: hidden;
+}
