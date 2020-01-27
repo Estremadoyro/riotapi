@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Summoner from './Summoner';
 import SummonerMatches from './SummonerMatches';
+import Pagination from './Pagination' ; 
+
 import $ from 'jquery' ; 
 
 import './style.css'
@@ -17,6 +19,9 @@ const App = () => {
   const [summoner, setSummoner] = useState([]);
   const [match, setMatches] = useState([]);
   const [icon, setIcon] = useState('591.png');
+  
+  const [currentPage, setCurrentPage] = useState(1) ; 
+  const [recordsPerPage, setrecordsPerPage] = useState(10) ; 
 
   const [champion, setChampion] = useState([]);
 
@@ -64,6 +69,10 @@ const App = () => {
     setIcon(data.data[iconId].image.full)
     console.log(icon)
   }
+
+  const indexOfLastPost = currentPage * recordsPerPage ; 
+  const indexOfFirstPost = indexOfLastPost - recordsPerPage ; 
+  const currentRecords = match.slice(indexOfFirstPost, indexOfLastPost)
 
   let championByIdCache = {};
   let championJson = {};
@@ -126,6 +135,7 @@ const App = () => {
     }
   }
 
+  const paginate = pageNumber => setCurrentPage(pageNumber)
   return (
 
     <div className="App">
@@ -172,15 +182,12 @@ const App = () => {
               summonerLevel={summoner.summonerLevel}
               summonerId={summoner.accountId}
               summonerIcon={summoner.profileIconId} />
+
             Games
-            {match.map(match => (
-              <SummonerMatches
-                key={match.gameId}
-                gameId={match.gameId}
-                gameChampion={match.champion}
-                gameQueue={match.queue}
-              />
-            ))}
+            <SummonerMatches games={currentRecords} />
+
+            <Pagination recordsPerPage={recordsPerPage} totalRecords={match.length} paginate={paginate}/>
+            
           </div>
         </div>
       </div>
