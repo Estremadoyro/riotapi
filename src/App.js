@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Summoner from './Summoner';
 import SummonerMatches from './SummonerMatches';
-import Pagination from './Pagination' ; 
+import Pagination from './Pagination';
 
-import $ from 'jquery' ; 
+import $ from 'jquery';
 
 import './style.css'
 //import './bootstrap.css'
@@ -18,33 +18,35 @@ const App = () => {
 
   const [summoner, setSummoner] = useState([]);
   const [match, setMatches] = useState([]);
-  const [icon, setIcon] = useState('591.png');
-  
-  const [currentPage, setCurrentPage] = useState(1) ; 
-  const [recordsPerPage, setrecordsPerPage] = useState(10) ; 
+  const [icon, setIcon] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setrecordsPerPage] = useState(10);
 
   const [champion, setChampion] = useState([]);
 
   const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('Harvey Specter');
+  const [query, setQuery] = useState('');
 
+  /*
   useEffect(() => {
 
     getSummoner();
 
   }, [query]);
+  */
 
   //Get summoner info
-  const getSummoner = async () => {
+  const getSummoner = async (summoner) => {
 
-    const response = await fetch(`${config.summoner_url}/${config.summoner}/${config.region}/${query}`, { mode: 'cors' })
+    const response = await fetch(`${config.summoner_url}/${config.summoner}/${config.region}/${summoner}`, { mode: 'cors' })
     const data = await response.json();
-    console.log(`${config.summoner_url}/${config.summoner}/${config.region}/${query}`) ; 
+    console.log(`${config.summoner_url}/${config.summoner}/${config.region}/${query}`);
     console.log(response);
     setSummoner(data);
 
     await getSummonerMatches(data.accountId);
-    await getSummonerIcon(data.profileIconId);
+    getSummonerIcon(data.profileIconId);
 
   }
 
@@ -58,7 +60,6 @@ const App = () => {
     setMatches(data.matches);
     getChampionByKey(data.matches[0].champion, 'en_US');
 
-
   }
 
   //Get summoner icon image
@@ -68,10 +69,11 @@ const App = () => {
     console.log(`Icon id --> ${data.data[iconId].image.full}`)
     setIcon(data.data[iconId].image.full)
     console.log(icon)
+    IconLoad()
   }
 
-  const indexOfLastPost = currentPage * recordsPerPage ; 
-  const indexOfFirstPost = indexOfLastPost - recordsPerPage ; 
+  const indexOfLastPost = currentPage * recordsPerPage;
+  const indexOfFirstPost = indexOfLastPost - recordsPerPage;
   const currentRecords = match.slice(indexOfFirstPost, indexOfLastPost)
 
   let championByIdCache = {};
@@ -117,7 +119,7 @@ const App = () => {
 
   const updateSearch = e => {
     setSearch(e.target.value);
-    //console.log(search);
+    console.log(search);
   }
 
   const getSearch = e => {
@@ -125,15 +127,72 @@ const App = () => {
 
     //Query value updates
     setQuery(search);
+    console.log(`Name to be sent --> ${search}`)
+    getSummoner(search);
+    Result()
+
   }
 
-  function SummonerGames(props) { 
-    const match = props.hasGames ; 
+  function IconLoad() {
 
-    if($.isEmptyObject({})) { 
-      
+    if (icon != '') {
+
+      return (
+
+        <img src={`http://ddragon.leagueoflegends.com/cdn/10.2.1/img/profileicon/` + icon} alt=""
+          className="summonerIcon rounded-circle my-3" />
+      )
+    } else {
+      return ""
+    }
+
+  }
+
+  function Result() {
+
+    if (query !== '') {
+
+      return (
+
+
+        <div>
+
+          <div className="row-4 border text-center">
+
+            <IconLoad />
+
+            <div className="summonerName">
+              <div className="col">{summoner.name}</div>
+            </div>
+
+          </div>
+          Summoner Data
+          <Summoner
+            key={summoner.accountId}
+            summonerName={summoner.name}
+            summonerLevel={summoner.summonerLevel}
+            summonerId={summoner.accountId}
+            summonerIcon={summoner.profileIconId} />
+
+          Games
+            <SummonerMatches games={currentRecords} />
+
+          <Pagination recordsPerPage={recordsPerPage} totalRecords={match.length} paginate={paginate} />
+        </div>
+      );
+    } else {
+      return ""
     }
   }
+
+  function SummonerGames(props) {
+    const match = props.hasGames;
+
+    if ($.isEmptyObject({})) {
+
+    }
+  }
+
 
   const paginate = pageNumber => setCurrentPage(pageNumber)
   return (
@@ -150,10 +209,60 @@ const App = () => {
             </div>
           </div>
 
+          
+          <div className="row text-center mb-4 mt-2">
+            <div className="col-3">
+
+              <div className="row-6">
+                
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              
+            </div>
+            <div className="col-3">
+
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              
+
+            </div>
+            <div className="col-3">
+
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              
+
+            </div>
+            <div className="col-3">
+
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              <div className="row-6">
+                <button type="button" className="btn btn-warning btn-rounded">NA</button>
+              </div>
+              
+
+            </div>
+
+          </div>
+
           <div className="row bg-dark">
 
             <div className="col text-center">
               <form className="md-form my-2" onSubmit={getSearch}>
+
                 <input type="text" placeholder="Summoner Name" value={search} onChange={updateSearch} className="input_summoner form-control pb-0 mb-0" />
 
                 <button className="btn btn-info btn-block my-4" type="submit">Look Up!</button>
@@ -165,41 +274,14 @@ const App = () => {
 
           <div className="col bg-dark result p-0">
 
-            <div className="row-4 border text-center">
+            <Result />
 
-              <img src={`http://ddragon.leagueoflegends.com/cdn/10.2.1/img/profileicon/` + icon} alt=""
-                className="summonerIcon rounded-circle my-3" />
-
-              <div className="summonerName">
-                <div className="col">{summoner.name}</div>
-              </div>
-
-            </div>
-            Summoner Data
-            <Summoner
-              key={summoner.accountId}
-              summonerName={summoner.name}
-              summonerLevel={summoner.summonerLevel}
-              summonerId={summoner.accountId}
-              summonerIcon={summoner.profileIconId} />
-
-            Games
-            <SummonerMatches games={currentRecords} />
-
-            <Pagination recordsPerPage={recordsPerPage} totalRecords={match.length} paginate={paginate}/>
-            
           </div>
         </div>
       </div>
     </div>
   );
 
-
-
 }
-
-
-
-
 
 export default App;

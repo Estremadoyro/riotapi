@@ -17,3 +17,12 @@ code {
   height: 10vh;
   width: 10vh;
 }
+
+.flag { 
+  height: 5vh !important;
+  width: 5vh !important;
+}
+
+.col-3 { 
+  
+}
