@@ -4,7 +4,6 @@ import ParticleComponent from "./components/ParticleComponent";
 import { SummonerContextProvider } from "./contexts/SummonerContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./styles.css";
-import Loader from "./components/Loader";
 //import $ from "jquery";
 
 const App = () => {
@@ -32,7 +31,6 @@ const App = () => {
         <SummonerContextProvider>
           <Switch>
             <Route exact path="/" component={Servers} />
-            <Route exact path="/loader" component={Loader} />
           </Switch>
         </SummonerContextProvider>
       </Router>
