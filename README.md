@@ -1,12 +1,12 @@
 ## Friends Summoner Info
 ![alt text](https://i.imgur.com/ADgPDXS.png)
 
+### Demo
+https://riotapi-friends-summoner-info.herokuapp.com/
+
 ### Available Scripts
 
 Comando para compilar y ejecutar el proyecto
-
-### Demo
-https://riotapi-friends-summoner-info.herokuapp.com/
 
 ### `npm start`
 
