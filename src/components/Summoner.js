@@ -59,7 +59,7 @@ export const Summoner = () => {
 
             <div className="text-center">
               <img
-                src={`http://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/${summonerInfo.profileIconId}.png`}
+                src={`https://ddragon.leagueoflegends.com/cdn/11.1.1/img/profileicon/${summonerInfo.profileIconId}.png`}
                 className="summonerIcon card-img thumbnail"
                 alt=""
               />
