@@ -51,7 +51,6 @@ body {
 .borderImage {
   border: 20px solid transparent;
   padding: 0px;
-  border-image: url("./static/borders/master.png") 10% stretch;
 }
 
 .tag {

@@ -1,3 +1,6 @@
+## Friends Summoner Info
+![alt text](https://i.imgur.com/ADgPDXS.png)
+
 ## Available Scripts
 
 In the project directory, you can run:

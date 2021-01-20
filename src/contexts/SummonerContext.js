@@ -85,8 +85,11 @@ export const SummonerContextProvider = props => {
     try {
       if (search !== "") {
         const showSummoner = await fetchSummonerInfo(); 
-        await fetchRankedInfo(showSummoner.id); 
-        return showSummoner; 
+        if (showSummoner !== undefined ){
+          await fetchRankedInfo(showSummoner.id); 
+          return showSummoner; 
+        }
+        
       }
       setStatus("Please, provide a summoner name owo");
       setResult(false); 
