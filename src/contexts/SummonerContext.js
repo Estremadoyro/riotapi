@@ -15,10 +15,12 @@ export const SummonerContextProvider = props => {
   const [exists, setExists] = useState(true);
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
+  const [keyStatus, setKeyStatus] = useState("");
 
   const fetchSummonerInfo = async () => {
     try {
       setStatus("");
+      setKeyStatus(""); 
       setLoading(true);
       const getSummoner = await fetch(
         `${config.summoner_url}/${config.summoner}/${config.region}/${search}`,
@@ -31,6 +33,14 @@ export const SummonerContextProvider = props => {
         setExists(false); 
         return;
       }
+      if(getSummoner.status === 403) {
+        setLoading(false);
+        setResult(false);
+        setExists(false); 
+        setKeyStatus("API key expired, contact https://www.instagram.com/leoestremadoyro/"); 
+        return;
+      }
+
       const getSummonerJson = await getSummoner.json();
       setSummonerInfo(getSummonerJson);
       setResult(false);
@@ -108,9 +118,11 @@ export const SummonerContextProvider = props => {
     exists,
     loading,
     search,
+    keyStatus,
     setSearch,
     setResult,
     setLoading,
+    setKeyStatus, 
     showInfo
   }
 

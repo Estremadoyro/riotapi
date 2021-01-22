@@ -17,6 +17,7 @@ export default function SearchBar() {
     status,
     exists,
     loading,
+    keyStatus,
   } = useContext(SummonerContext);
 
   const getSummonerInfo = async (e) => {
@@ -42,6 +43,9 @@ export default function SearchBar() {
                 {status}
               </div>
             ) : null}
+            {keyStatus && <div className="alert alert-warning" role="alert">
+                {keyStatus}
+              </div>}
             <input
               type="text"
               placeholder="Mojotax, Rodnaldinho, Runewolf, ..."
