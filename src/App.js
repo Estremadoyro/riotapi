@@ -4,7 +4,6 @@ import ParticleComponent from "./components/ParticleComponent";
 import { SummonerContextProvider } from "./contexts/SummonerContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./styles.css";
-//import $ from "jquery";
 
 const App = () => {
   return (
