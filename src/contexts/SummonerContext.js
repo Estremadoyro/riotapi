@@ -26,6 +26,7 @@ export const SummonerContextProvider = props => {
         `${config.summoner_url}/${config.summoner}/${config.region}/${search}`,
         { mode: "cors" }
       );
+      //console.log(getSummoner) ; 
       if (getSummoner.status === 404) {
         setStatus("User doesn't exist :(");
         setLoading(false);
@@ -40,11 +41,13 @@ export const SummonerContextProvider = props => {
         setKeyStatus("API key expired, contact https://www.instagram.com/leoestremadoyro/"); 
         return;
       }
-
+      
       const getSummonerJson = await getSummoner.json();
+      console.log("asdasdasd")
       setSummonerInfo(getSummonerJson);
       setResult(false);
-      setExists(true); 
+      setExists(true);
+      
       return getSummonerJson;
     } catch (error) {
       console.log(error);
