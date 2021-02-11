@@ -1,10 +1,9 @@
-import React, {useState} from 'react'; 
-import config from '../config'; 
+import React, { useState } from "react";
+import config from "../config";
 
-export const SummonerContext = React.createContext(); 
+export const SummonerContext = React.createContext();
 
-export const SummonerContextProvider = props => {
-
+export const SummonerContextProvider = (props) => {
   const [summonerInfo, setSummonerInfo] = useState([]);
   //const [rankedInfo, setRankedInfo] = useState([]);
   const [rankedSoloQInfo, setRankedSoloQInfo] = useState([]);
@@ -20,34 +19,37 @@ export const SummonerContextProvider = props => {
   const fetchSummonerInfo = async () => {
     try {
       setStatus("");
-      setKeyStatus(""); 
+      setKeyStatus("");
       setLoading(true);
       const getSummoner = await fetch(
         `${config.summoner_url}/${config.summoner}/${config.region}/${search}`,
         { mode: "cors" }
       );
-      //console.log(getSummoner) ; 
+      console.log(config.summoner_url);
+      console.log(config.region);
       if (getSummoner.status === 404) {
         setStatus("User doesn't exist :(");
         setLoading(false);
         setResult(false);
-        setExists(false); 
+        setExists(false);
         return;
       }
-      if(getSummoner.status === 403) {
+      if (getSummoner.status === 403) {
         setLoading(false);
         setResult(false);
-        setExists(false); 
-        setKeyStatus("API key expired, contact https://www.instagram.com/leoestremadoyro/"); 
+        setExists(false);
+        setKeyStatus(
+          "API key expired, contact https://www.instagram.com/leoestremadoyro/"
+        );
         return;
       }
-      
+
       const getSummonerJson = await getSummoner.json();
-      console.log("asdasdasd")
+      console.log("asdasdasd");
       setSummonerInfo(getSummonerJson);
       setResult(false);
       setExists(true);
-      
+
       return getSummonerJson;
     } catch (error) {
       console.log(error);
@@ -63,54 +65,49 @@ export const SummonerContextProvider = props => {
       const getRankedJson = await getRanked.json();
       //console.log(`Length: ${getRankedJson.length}`)
       if (getRankedJson.length === 1) {
-        if(getRankedJson[0].queueType === "RANKED_SOLO_5x5"){
+        if (getRankedJson[0].queueType === "RANKED_SOLO_5x5") {
           setRankedSoloQInfo(getRankedJson[0]);
           setRankedFlexQInfo("Unranked");
         } else {
           setRankedSoloQInfo("Unranked");
           setRankedFlexQInfo(getRankedJson[0]);
         }
-        
       } else if (getRankedJson.length === 0) {
         setRankedFlexQInfo("Unranked");
         setRankedSoloQInfo("Unranked");
-      } else { 
-        if (getRankedJson[0].queueType === "RANKED_SOLO_5x5"){
+      } else {
+        if (getRankedJson[0].queueType === "RANKED_SOLO_5x5") {
           setRankedSoloQInfo(getRankedJson[0]);
           setRankedFlexQInfo(getRankedJson[1]);
-        } else if (getRankedJson[0].queueType === "RANKED_FLEX_SR"){
+        } else if (getRankedJson[0].queueType === "RANKED_FLEX_SR") {
           setRankedFlexQInfo(getRankedJson[0]);
           setRankedSoloQInfo(getRankedJson[1]);
         }
-        
-        
       }
-      setResult(true); 
-      // console.log(`Ranked`); 
-      // console.log(getRankedJson); 
+      setResult(true);
+      // console.log(`Ranked`);
+      // console.log(getRankedJson);
       return getRankedJson;
     } catch (error) {
       console.log(error);
     }
   };
 
-  const showInfo = async () => { 
+  const showInfo = async () => {
     try {
       if (search !== "") {
-        const showSummoner = await fetchSummonerInfo(); 
-        if (showSummoner !== undefined ){
-          await fetchRankedInfo(showSummoner.id); 
-          return showSummoner; 
+        const showSummoner = await fetchSummonerInfo();
+        if (showSummoner !== undefined) {
+          await fetchRankedInfo(showSummoner.id);
+          return showSummoner;
         }
-        
       }
       setStatus("Please, provide a summoner name owo");
-      setResult(false); 
-
+      setResult(false);
     } catch (error) {
-      console.log(error); 
+      console.log(error);
     }
-  }
+  };
 
   const values = {
     summonerInfo,
@@ -125,13 +122,13 @@ export const SummonerContextProvider = props => {
     setSearch,
     setResult,
     setLoading,
-    setKeyStatus, 
-    showInfo
-  }
+    setKeyStatus,
+    showInfo,
+  };
 
   return (
     <SummonerContext.Provider value={values}>
       {props.children}
     </SummonerContext.Provider>
-  )
-}
+  );
+};
